@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
-// #include <winsock2.h>
+#include <winsock2.h>
 void error_handling(char* message);
 
 int main(int argc,char *argv[]){
@@ -26,7 +26,10 @@ int main(int argc,char *argv[]){
     memset(&serv_addr,0,sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = inet_addr(argv[1]);
-    serv_addr.sin_port = htons(aoti(argv[2]));
+    // inet_aton(argv[1],&serv_addr.sin_addr);  //点分十进制网络地址字符串变为网络地址，
+                                                //返回int,1成功，0失败
+    serv_addr.sin_port = htons(atoi(argv[2]));//host to network
+                                                //int atoi(char*)将字符串转为整数
 
     if(connect(sock,(struct sockaddr*)&serv_addr,sizeof(serv_addr))==-1){
         error_handling("connect() error");

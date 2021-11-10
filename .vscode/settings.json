@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "stdio.h": "c",
-        "unistd.h": "c"
-    }
+        "unistd.h": "c",
+        "winsock2.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "Enabled"
 }
