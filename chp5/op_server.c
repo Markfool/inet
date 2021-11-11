@@ -4,7 +4,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <sys/socket.h>
-#include <winsock2.h>
+// #include <winsock2.h>
 void error_handling(char *message){
     fputs(message,stderr);
     fputc('\n',stderr);
@@ -42,7 +42,7 @@ int main(int argc,char *argv[]){
 
     int size_addr = sizeof(clnt_addr);
     for(int i=0;i<5;i++){
-        if(accept(sock_serv,(struct sockaddr*)&clnt_addr,&size_addr) == -1){
+        if((sock_clnt = accept(sock_serv,(struct sockaddr*)&clnt_addr,&size_addr)) == -1){
             error_handling("accept() error");
         }
         else{
