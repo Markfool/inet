@@ -4,7 +4,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <sys/socket.h>
-// #include <winsock2.h>
+#include <winsock2.h>
 void error_handling(char *message){
     fputs(message,stderr);
     fputc('\n',stderr);
@@ -21,7 +21,7 @@ int main(int argc,char *argv[]){
     int ans;
 
     if(argc != 2){
-        prinf("Usage : %s <port>\n",argv[0]);
+        printf("Usage : %s <port>\n",argv[0]);
         return 0;
     }
     sock_serv = socket(PF_INET,SOCK_STREAM,IPPROTO_TCP);
@@ -30,8 +30,8 @@ int main(int argc,char *argv[]){
     }
     memset(&serv_addr,0,sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
-    serv_addr.sin_addr.s_addr = inet_addr(argv[1]);
-    serv_addr.sin_port = htons(atoi(argv[2]));
+    serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    serv_addr.sin_port = htons(atoi(argv[1]));
 
     if(bind(sock_serv,(struct sockaddr*)&serv_addr,sizeof(serv_addr)) == -1){
         error_handling("band() error");
@@ -83,6 +83,7 @@ int main(int argc,char *argv[]){
             error_handling("write() error");
         }
         close(sock_clnt);
+        free(nums);
     }
     close(sock_serv);
 }
