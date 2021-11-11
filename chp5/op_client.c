@@ -4,7 +4,7 @@
 #include <string.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
-// #include <winsock2.h>
+#include <winsock2.h>
 #define BUF_SIZE 1024
 #define INT_LEN sizeof(int)
 void error_handling(char *message){
@@ -22,7 +22,7 @@ int main(int argc,char*argv[]){
     int str_len = 0;
 
     if(argc != 3){
-        prinf("Usage : %s <IP> <PORT>\n",argv[0]);
+        printf("Usage : %s <IP> <PORT>\n",argv[0]);
     }
     
     sock = socket(PF_INET,SOCK_STREAM,IPPROTO_TCP);
@@ -45,11 +45,11 @@ int main(int argc,char*argv[]){
 
     for(int i=0;i<nums;i++){
         printf("opnum%d is :",i+1);
-        scanf("%d",(int *)buf[i*INT_LEN+1]);
+        scanf("%d",(int *)&buf[i*INT_LEN+1]);
     }
     getchar();
     printf("the operator is :");
-    scanf("%c",buf[nums*INT_LEN+1]);
+    scanf("%c",&buf[nums*INT_LEN+1]);
 
     if(write(sock,buf,nums*INT_LEN+2)==-1){
         error_handling("write() error");
@@ -58,7 +58,7 @@ int main(int argc,char*argv[]){
     int i = 0;
     int len;
     while(str_len<=INT_LEN){
-        if((len = read(sock,ans[i++],1)) == -1){
+        if((len = read(sock,&ans[i++],1)) == -1){
             error_handling("read() error");
         }
         str_len += len;
