@@ -18,7 +18,6 @@ int main(int argc,char *argv[]){
     struct sockaddr_in clnt_addr;
     char buf[1024];
     int rec_len = 0;
-    int ans;
 
     if(argc != 2){
         printf("Usage : %s <port>\n",argv[0]);
@@ -42,6 +41,8 @@ int main(int argc,char *argv[]){
 
     int size_addr = sizeof(clnt_addr);
     for(int i=0;i<5;i++){
+        char ans[4] = {0};
+        int rec_len = 0;
         if((sock_clnt = accept(sock_serv,(struct sockaddr*)&clnt_addr,&size_addr)) == -1){
             error_handling("accept() error");
         }
@@ -76,7 +77,7 @@ int main(int argc,char *argv[]){
         printf("the operator is %c",buf[rec_len-1]);
         if(buf[rec_len-1] == '+'){
             for(int i=0;i<(int)buf[0];i++){
-                ans+=nums[i];
+                *((int*)ans)+=nums[i];
             }
         }
         if(write(sock_clnt,&ans,sizeof(int))==-1){

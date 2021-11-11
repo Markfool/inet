@@ -4,7 +4,7 @@
 #include <string.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
-#include <winsock2.h>
+// #include <winsock2.h>
 #define BUF_SIZE 1024
 #define INT_LEN sizeof(int)
 void error_handling(char *message){
@@ -56,10 +56,9 @@ int main(int argc,char*argv[]){
         error_handling("write() error");
     }
 
-    int i = 0;
     int len;
-    while(str_len<=INT_LEN){
-        if((len = read(sock,&ans[i++],1)) == -1){
+    while(str_len<INT_LEN){
+        if((len = read(sock,&ans[str_len],4)) == -1){
             error_handling("read() error");
         }
         str_len += len;
