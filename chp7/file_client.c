@@ -35,7 +35,7 @@ int main(int argc,char *argv[]){
     if(connect(sock,(struct sockaddr*)&serv_addr,sizeof(serv_addr))==-1){
         error_handling("connect() error");
     }
-    while(read_cnt = read(sock,buf,BUF_SIZE)!=0){
+    while((read_cnt = read(sock,buf,BUF_SIZE))!=0){
         fwrite(buf,1,read_cnt,fp);
     }
 
